@@ -1,30 +1,30 @@
-from typing import List
+import math
+def amotzmergesort(list):
+    n = len(list)
+    if n < 2:
+        return list
+    mid = n/2
+    listl = [None] * int(math.floor(mid))
+    listr= [None] * int(math.ceil((n-mid)))
+    for i in range(0, int(math.floor(mid))):
+        listl[i] = list[i]
+    if (mid).is_integer() == False:
+        for i in range(0, int(math.ceil((n-mid)))):
+            listr[i] = list[int(math.ceil((n/2)+i-1))]
+    else:
+        if (mid).is_integer() == True:
+            for i in range(0, int(math.ceil((n - mid)))):
+                listr[i] = list[int(math.ceil((n / 2) + i))]
+    amotzmergesort(listl)
+    print(listl)
+    amotzmergesort(listr)
+    print(listr)
 
-x = [3, 5, 8, 7]
-a = x[0:int(len(x) / 2)]
-b = x[int(len(x) / 2):int(len(x))]
-print("a=", a)
-print("b=", b)
-if a[0] > a[1]:
-    a[0], a[1] = a[1], a[0]
-if b[0] > b[1]:
-    b[0], b[1] = b[1], b[0]
-print("a=", a)
-print("b=", b)
-c = []
-if a[0] < b[0]:
-    c.append(a[0])
-else:
-    c.append(b[0])
-print(c)
-if a[0] > a[1]:
-    a[0], a[1] = a[1], a[0]
-if b[0] > b[1]:
-    b[0], b[1] = b[1], b[0]
-if a[1] < b[1]:
-    c.append(a[1])
-else:
-    c.append(b[1])
-print(c)
-print(a)
-print(b)
+amotzmergesort(list)
+print(list)
+
+
+
+
+
+
