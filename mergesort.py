@@ -1,6 +1,46 @@
 import math
 
-#[amotz] this suppose to be the function that split recursively the array (list in python), i think this is working.
+
+def mergefragments(listl, listr):
+    count = 0
+    length_listl = len(listl)
+    length_listr = len(listr)
+    united = [None] * (length_listl + length_listr)
+    index_l = 0
+    index_r = 0
+    index_united = 0
+    while listl and listr:
+        if listl[index_l] <= listr[index_r]:
+            united[index_united] = listl[index_l]
+            del listl[index_l]
+            index_united = index_united + 1
+            count = count + 1
+            print('index_l =', index_l)
+            print(not listl)
+            print(not listr)
+        elif listr[index_r] <= listl[index_l]:
+            united[index_united] = listr[index_r]
+            index_united = index_united + 1
+            del listr[index_r]
+            count = count + 1
+            print(not listl)
+            print(not listr)
+    if listl:
+        for i in range(len(listl)):
+            print('listl[i] =', listl[i])
+            print('united[index_united]= ', united[index_united])
+            united[index_united] = listl[i]
+            index_united = index_united + 1
+    elif listr:
+        for i in range(len(listr)):
+            print(listr[i])
+            print(united[index_united])
+            united[index_united] = listr[i]
+            index_united = index_united + 1
+    return united
+
+
+# [amotz] this suppose to be the function that split recursively the array (list in python), i think this is working.
 def listsplitter(list):
     n = len(list)
     if n < 2:
@@ -18,48 +58,19 @@ def listsplitter(list):
             for i in range(0, int(math.ceil((n - mid)))):
                 listr[i] = list[int(math.ceil((n / 2) + i))]
     listsplitter(listl)
-    print(listl)
     listsplitter(listr)
-    print(listr)
-listsplitter ([3,6,7,8,5,2,2)
 
 
+#    mergefragments(listl, listr)
 
-#[amotz] this is supposed to be the function that will merge the fragments to a sorted list so in the end i will call it from my listsplitter function,
+listsplitter([8, 5, 2, ])
+# listsplitter([3, 6, 7, 8, 5, 2, 2])
+
+# [amotz] this is supposed to be the function that will merge the fragments to a sorted list so in the end i will call it from my listsplitter function,
 # it is still not working though,
-#the algorithm is getting confused i think because i delete each iteration of the loop an index in the list so it says
+# the algorithm is getting confused i think because i delete each iteration of the loop an index in the list so it says
 # an error list index out of range in line 39
 # but i am not sure yet and it is work in progress
-def mergefragments(listl, listr):
-    count = 0
-    length_listl = len(listl)
-    length_listr = len(listr)
-    united = [None] * (length_listl + length_listr)
-    index_l = 0
-    index_r = 0
-    index_united = 0
-    while index_l < length_listl and index_r < length_listr:
-        if listl[index_l] < listr[index_r]:
-            united[index_united] = listl[index_l]
-            del listl[index_l]
-            index_l = index_l + 1
-            index_united = index_united + 1
-            count = count + 1
-            print('index_l =', index_l)
-        elif listr[index_r] < listl[index_l]:
-            united[index_united] = listr[index_r]
-            index_united = index_united + 1
-            del listr[index_r]
-            index_r = index_r + 1
-            count = count + 1
-    if index_l == length_listl:
-        for i in range(len(listl)):
-            print('listr[i] =', listr[i])
-            united[i + count] = listr[i]
-    elif index_r == length_listr:
-        for i in range(len(listr)):
-            listl[i] == united[i]
-    return united
 
 
-print(mergefragments([3, 4, 5], [2, 8, 9]))
+# print(mergefragments([3, 4, 5], [2, 8, 9]))
