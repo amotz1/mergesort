@@ -1,6 +1,6 @@
 import math
 
-
+#[amotz] it seems to me that i am now finished mergefragments function and it now work for your test cases i think
 def mergefragments(listl, listr):
     count = 0
     length_listl = len(listl)
@@ -40,7 +40,11 @@ def mergefragments(listl, listr):
     return united
 
 
-# [amotz] this suppose to be the function that split recursively the array (list in python), i think this is working.
+# [amotz] i tried to make the whole thing work but it seems i have some bug in the listsplitter function which i am still unable to understand.
+# after working with the debugger it seems that in the example below which is [8,5,2]
+# it somehow split the list correctly but at the end for some reason i dont fully understand
+# right now its not giving me the last listl and listr but the listl and listr in an earlier stage so i want to get in the example below [8],[5],[2] but i get [8], [5,2]
+#which later fails to merge correctly in the mergefragment function because it needs sorted arrays
 def listsplitter(list):
     n = len(list)
     if n < 2:
@@ -59,18 +63,8 @@ def listsplitter(list):
                 listr[i] = list[int(math.ceil((n / 2) + i))]
     listsplitter(listl)
     listsplitter(listr)
-
-
 #    mergefragments(listl, listr)
 
 listsplitter([8, 5, 2, ])
 # listsplitter([3, 6, 7, 8, 5, 2, 2])
 
-# [amotz] this is supposed to be the function that will merge the fragments to a sorted list so in the end i will call it from my listsplitter function,
-# it is still not working though,
-# the algorithm is getting confused i think because i delete each iteration of the loop an index in the list so it says
-# an error list index out of range in line 39
-# but i am not sure yet and it is work in progress
-
-
-# print(mergefragments([3, 4, 5], [2, 8, 9]))
