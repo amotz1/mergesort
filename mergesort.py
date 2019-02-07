@@ -1,6 +1,7 @@
 import math
 
-#[amotz] it seems to me that i now finished mergefragments function and it now work for your test cases i think (will soon check that but i checked for some other cases with empty lists)
+
+# [amotz] it seems to me that i now finished mergefragments function and it now work for your test cases i think (will soon check that but i checked for some other cases with empty lists)
 def mergefragments(listl, listr):
     count = 0
     length_listl = len(listl)
@@ -44,7 +45,7 @@ def mergefragments(listl, listr):
 # after working with the debugger it seems that in the example below which is [8,5,2]
 # it somehow split the list correctly but at the end for some reason i dont fully understand
 # right now its not giving me the last listl and listr but the listl and listr in an earlier stage so i want to get in the example below [8],[5],[2] but i get [8], [5,2]
-#which later fails to merge correctly in the mergefragment function because it needs sorted arrays
+# which later fails to merge correctly in the mergefragment function because it needs sorted arrays
 def listsplitter(list):
     n = len(list)
     if n < 2:
@@ -63,8 +64,9 @@ def listsplitter(list):
                 listr[i] = list[int(math.ceil((n / 2) + i))]
     listsplitter(listl)
     listsplitter(listr)
+
+
 #    mergefragments(listl, listr)
 
 listsplitter([8, 5, 2, ])
 # listsplitter([3, 6, 7, 8, 5, 2, 2])
-
