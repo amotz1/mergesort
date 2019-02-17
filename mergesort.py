@@ -16,26 +16,26 @@ def mergefragments(listl, listr):
             del listl[index_l]
             index_united = index_united + 1
             count = count + 1
-            print('index_l =', index_l)
-            print(not listl)
-            print(not listr)
+        #   print('index_l =', index_l)
+        #   print(not listl)
+        #   print(not listr)
         elif listr[index_r] <= listl[index_l]:
             united[index_united] = listr[index_r]
             index_united = index_united + 1
             del listr[index_r]
             count = count + 1
-            print(not listl)
-            print(not listr)
+        #   print(not listl)
+        #   print(not listr)
     if listl:
         for i in range(len(listl)):
-            print('listl[i] =', listl[i])
-            print('united[index_united]= ', united[index_united])
+            #   print('listl[i] =', listl[i])
+            #   print('united[index_united]= ', united[index_united])
             united[index_united] = listl[i]
             index_united = index_united + 1
     elif listr:
         for i in range(len(listr)):
-            print(listr[i])
-            print(united[index_united])
+            #    print(listr[i])
+            #   print(united[index_united])
             united[index_united] = listr[i]
             index_united = index_united + 1
     return united
@@ -48,8 +48,6 @@ def mergefragments(listl, listr):
 # which later fails to merge correctly in the mergefragment function because it needs sorted arrays
 def listsplitter(list):
     n = len(list)
-    if n < 2:
-        return list
     mid = n / 2
     listl = [None] * int(math.floor(mid))
     listr = [None] * int(math.ceil((n - mid)))
@@ -62,11 +60,40 @@ def listsplitter(list):
         if (mid).is_integer() == True:
             for i in range(0, int(math.ceil((n - mid)))):
                 listr[i] = list[int(math.ceil((n / 2) + i))]
-    listsplitter(listl)
-    listsplitter(listr)
+    return listl, listr
 
 
-#    mergefragments(listl, listr)
-
-listsplitter([8, 5, 2, ])
 # listsplitter([3, 6, 7, 8, 5, 2, 2])
+
+def sort(list):
+    if len(list) < 2:
+        return list
+    listlr = listsplitter(list)
+    listl = sort(listlr[0])
+    listr = sort(listlr[1])
+    list = mergefragments(listl, listr)
+    return list
+
+
+def test():
+    testCases = [[3, 5, 11, 3, 13],
+                 [7, 8, 7, 9, 5, 2],
+                 [6, 8, 8, 5, 4, 3],
+                 [6, 8, 9, 9, 4, 3],
+                 [8, 6, 6, 6, 9, 3, 2, 1, 2],
+                 [1, 2, 3],
+                 [3, 2, 1],
+                 [],
+                 [1],
+                 [1, 1, 1]]
+
+    for testCase in testCases:
+        print("in\t", testCase)
+        sort(testCase)
+        print("out\t", sort(testCase))
+        if sort(testCase) == sorted(testCase):
+            print("you got it right")
+        assert (sort(testCase))
+
+test()
+
