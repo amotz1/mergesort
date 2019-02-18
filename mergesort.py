@@ -1,7 +1,7 @@
-import math
+from math import ceil, floor
+from typing import List
 
 
-# [amotz] this is the merge fragment function, it is now working
 def mergefragments(listl, listr):
     count = 0
     length_listl = len(listl)
@@ -15,24 +15,29 @@ def mergefragments(listl, listr):
             united[index_united] = listl[index_l]
             del listl[index_l]
             index_united = index_united + 1
+            # [Aviv] I would refactor this. That is, I'd move this duplicated line to be in the while each time rather
+            # than in each case.
             count = count + 1
         #   print('index_l =', index_l)
         #   print(not listl)
         #   print(not listr)
-        elif listr[index_r] <= listl[index_l]:
+        elif listr[index_r] <= listl[index_l]:  # [Aviv] I think that this should just be "else"
             united[index_united] = listr[index_r]
             index_united = index_united + 1
             del listr[index_r]
             count = count + 1
         #   print(not listl)
         #   print(not listr)
+    assert listl or listr, \
+        'One of the lists should have elements remaining. ' \
+        '(The while loop above stops running when one lists runs out of elemnts.)'
     if listl:
         for i in range(len(listl)):
             #   print('listl[i] =', listl[i])
             #   print('united[index_united]= ', united[index_united])
             united[index_united] = listl[i]
             index_united = index_united + 1
-    elif listr:
+    elif listr:  # [Aviv] I think that this should just be "else"
         for i in range(len(listr)):
             #    print(listr[i])
             #   print(united[index_united])
@@ -42,33 +47,35 @@ def mergefragments(listl, listr):
 
 
 # [amotz] this is the listsplitter function, again working.
-def listsplitter(list):
+# [Aviv] I'd rename this to be a verb, so for example, splitLists
+# [Aviv] I'm not sure how these return value "hints" work, but I added this, and it didn't seem to break anything.
+def listsplitter(list) -> List[List[int]]:
     n = len(list)
-    mid = n / 2
-    listl = [None] * int(math.floor(mid))
-    listr = [None] * int(math.ceil((n - mid)))
-    for i in range(0, int(math.floor(mid))):
+    mid = n / 2  # [Aviv] I would move the floor function to here and not use it below.
+    listl = [None] * int(floor(mid))
+    listr = [None] * int(ceil((n - mid)))
+    for i in range(0, int(floor(mid))):
         listl[i] = list[i]
     if (mid).is_integer() == False:
-        for i in range(0, int(math.ceil((n - mid)))):
-            listr[i] = list[int(math.ceil((n / 2) + i - 1))]
+        for i in range(0, int(ceil((n - mid)))):
+            listr[i] = list[int(ceil((n / 2) + i - 1))]
     else:
         if (mid).is_integer() == True:
-            for i in range(0, int(math.ceil((n - mid)))):
-                listr[i] = list[int(math.ceil((n / 2) + i))]
+            for i in range(0, int(ceil((n - mid)))):
+                listr[i] = list[int(ceil((n / 2) + i))]
     return listl, listr
 
 
-# [amotz] this is the sort function that you wanted me to write in our last conversation,
-# it seems to work on all the test cases below...
-def sort(list):
+def mergeSort(list: int) -> List[int]:
     if len(list) < 2:
         return list
-    listlr = listsplitter(list)
-    listl = sort(listlr[0])
-    listr = sort(listlr[1])
-    list = mergefragments(listl, listr)
-    return list
+    # [Aviv]. Sorry, I got carried away. Since the function above returns 2 things (which is a rare language feature)
+    # I chnaged the usage of it here to assign 2 things. (above says "return a, b", and so here I say "a, b = call()"
+    unsortedLeft, unsortedRight = listsplitter(list)
+    sortedLeft = mergeSort(unsortedLeft)
+    sortedRight = mergeSort(unsortedRight)
+    mergeSorted = mergefragments(sortedLeft, sortedRight)
+    return mergeSorted
 
 
 # [amotz] the only thing that is not completed i think is that it seems i get some weird assertion error.
@@ -87,13 +94,19 @@ def test():
                  [1],
                  [1, 1, 1]]
 
+    testCase: List[int]
     for testCase in testCases:
-        print("in\t", testCase)
-        sort(testCase)
-        print("out\t", sort(testCase))
-        if sort(testCase) == sorted(testCase):
-            print("you got it right")
-            assert (sort(testCase))
+        # print("in\t", testCase)
+        mergeSorted = mergeSort(testCase)
+        # print("out\t", mergeSorted)
+        referenceSorted: List[int] = sorted(testCase)
+        # [Aviv] This use of "==" is really confusing to me. I'm used to == being used to check if the 2 are the *same*
+        # objects, not if they're "equal". But I don't know Python.
+        if mergeSorted != referenceSorted:
+            print("Wrong: %s != %s" % (mergeSorted, referenceSorted), end=' ')
+            assert False
+        else:
+            print("Right! %s sorted = %s" % (testCase, mergeSorted))
 
 
 test()
