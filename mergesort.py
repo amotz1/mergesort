@@ -58,7 +58,8 @@ def listsplitter(list):
                 listr[i] = list[int(math.ceil((n / 2) + i))]
     return listl, listr
 
-#[amotz] this is the sort function that you wanted me to write in our last conversation,
+
+# [amotz] this is the sort function that you wanted me to write in our last conversation,
 # it seems to work on all the test cases below...
 def sort(list):
     if len(list) < 2:
@@ -69,7 +70,8 @@ def sort(list):
     list = mergefragments(listl, listr)
     return list
 
-#[amotz] the only thing that is not completed i think is that it seems i get some weird assertion error.
+
+# [amotz] the only thing that is not completed i think is that it seems i get some weird assertion error.
 # without the assertion the test function seems to run smoothly without errors
 # and give correct answer for all the test cases, but somehow if i run the program with the assertion
 # it stops the program when it hit the [] testcase and then it throws off an assertion error...
